@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration | CampusVoice</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 1px 3%;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 45px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px #173b5710;
+        }
+
+        h2 { color: #173b57;
+        text-align:center; }
+        .p{
+          font-size:14px;
+          text-align:center;
+          margin-top:-8px;
+        }
+
+        p{
+          font-size:14px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 14px;
+            border: 1px solid #ccd5df;
+            border-radius: 7px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #172554;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .helptext { font-size: 13px; color: #657386; }
+
+        .errorlist { color: #c62828; }
+    </style>
+</head>
+<body>
+    <header>
+        <h3>CampusVoice</h3>
+    </header>
+
+    <main class="container">
+        <h2>Create Student Account</h2>
+        <p class="p">Register to submit and track your complaints.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">Create Account</button>
+        </form>
+    </main>
+</body>
+</html>

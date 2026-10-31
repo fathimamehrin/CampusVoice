@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    {% if complaint %}Edit Complaint{% else %}Submit a Complaint{% endif %}
+    | CampusVoice
+</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 20px 3%;
+        }
+
+        header h3 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px #173b5710;
+        }
+
+        h2 {
+            color: #173b57;
+            margin-top: 0;
+        }
+        .head{
+            text-align:center;
+            line-height:0.5;
+        }
+        .head p{
+            font-size:14px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd5df;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 22px;
+            padding: 13px 22px;
+            background: #172554;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #267d83;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #173b57;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h3>CampusVoice</h3>
+    </header>
+
+    <main class="container">
+        <div class="head">
+        <h2>
+            {% if complaint %}Edit Complaint{% else %}Submit a Complaint{% endif %}
+        </h2>
+        <p>Please provide the details of your complaint below.</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name"
+                   maxlength="100" required>
+
+            <label for="title">Complaint Title</label>
+            <input type="text" id="title" name="title"
+       maxlength="200"
+       value="{{ complaint.title|default:'' }}" required>
+
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="Technical"
+                        {% if complaint.category == 'Technical' %}selected{% endif %}>
+                        Technical Issue
+                    </option>
+                    <option value="Academic"
+                        {% if complaint.category == 'Academic' %}selected{% endif %}>
+                        Academic Issue
+                    </option>
+                    <option value="Facilities"
+                        {% if complaint.category == 'Facilities' %}selected{% endif %}>
+                        Facilities
+                    </option>
+                    <option value="Other"
+                        {% if complaint.category == 'Other' %}selected{% endif %}>
+                        Other
+                    </option>
+                </select>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" required>{{ complaint.description|default:'' }}</textarea>
+
+            <button type="submit">
+    {% if complaint %}Save Changes{% else %}Submit Complaint{% endif %}
+</button>
+        </form>
+
+        <a href="/" class="back">← Back to Home</a>
+    </main>
+</body>
+</html>

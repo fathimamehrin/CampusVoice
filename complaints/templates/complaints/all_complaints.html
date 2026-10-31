@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Complaints | CampusVoice</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+        header {
+            background: #172554;
+            color: white;
+            padding: 20px 3%;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #173b5710;
+        }
+        .card p{
+          font-size:14px;
+        }
+        h1, h2 { color: #173b57; }
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #fff0cf;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        a { color: #267d83; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h3 style="color:white; margin:0;">CampusVoice</h3>
+    </header>
+
+    <main class="container">
+        <h2>All Complaints</h2>
+        <p>View reported campus issues and their current status.</p>
+
+        {% for complaint in complaints %}
+        <article class="card">
+            <h3>{{ complaint.title }}</h3>
+            <p><strong>Category:</strong> {{ complaint.get_category_display }}</p>
+            <p><strong>Status:</strong>
+                <span class="status">{{ complaint.status }}</span>
+            </p>
+            <p><strong>Date:</strong> {{ complaint.created_at|date:"d M Y" }}</p>
+        </article>
+        {% empty %}
+        <article class="card">
+            <p>No complaints have been submitted yet.</p>
+        </article>
+        {% endfor %}
+
+        <p><a href="/">← Back to Home</a></p>
+    </main>
+</body>
+</html>

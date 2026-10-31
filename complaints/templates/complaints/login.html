@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login | CampusVoice</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        header {
+            background: #172554;
+            color: white;
+            padding: 1px 3%;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 150px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px #173b5710;
+        }
+
+        .container h3 { 
+          color: #173b57; 
+          text-align:center
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            margin: 6px 0 15px;
+            border: 1px solid #ccd5df;
+            border-radius: 7px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #172554;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .errorlist { color: #c62828; }
+        a { color: #267d83; }
+
+        .p{
+          text-align:center;
+          font-size:14px;
+        }
+        p{
+          font-size:14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h3>CampusVoice</h3>
+    </header>
+
+    <main class="container">
+        <h3>Student Login</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Log In</button>
+        </form>
+
+        <p class="p">Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    </main>
+</body>
+</html>

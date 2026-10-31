@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusVoice | Admin Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #263248;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 235px;
+            background: #172554;
+            color: white;
+            padding: 28px 18px;
+            flex-shrink: 0;
+        }
+
+        .sidebar h2 {
+            margin: 0 0 8px;
+            font-size: 23px;
+        }
+
+        .sidebar p {
+            color: #cbd5e1;
+            font-size: 13px;
+            margin-bottom: 35px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 13px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #334780;
+            color: white;
+        }
+
+        .main {
+            flex: 1;
+            padding: 32px;
+            min-width: 0;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .topbar h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .muted {
+            color: #64748b;
+            margin: 0;
+        }
+
+        .button {
+            display: inline-block;
+            background: #1d4ed8;
+            color: white;
+            padding: 11px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .button:hover {
+            background: #1e40af;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(140px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 13px;
+            box-shadow: 0 3px 12px #1725540d;
+            border-left: 5px solid #2563eb;
+        }
+
+        .card.pending {
+            border-color: #f59e0b;
+        }
+
+        .card.progress {
+            border-color: #8b5cf6;
+        }
+
+        .card.resolved {
+            border-color: #10b981;
+        }
+
+        .card p {
+            margin: 0 0 12px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .panel {
+            background: white;
+            padding: 24px;
+            border-radius: 13px;
+            box-shadow: 0 3px 12px #1725540d;
+        }
+
+        .panel h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 14px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+        }
+
+        .status-form {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background: white;
+        }
+
+        .small-button {
+            padding: 8px 10px;
+            background: #1d4ed8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .empty {
+            color: #64748b;
+            padding: 20px 0;
+        }
+
+        @media (max-width: 1000px) {
+            .cards {
+                grid-template-columns: repeat(2, minmax(130px, 1fr));
+            }
+        }
+
+        @media (max-width: 650px) {
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .main {
+                padding: 20px 14px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <h2>CampusVoice</h2>
+        <p>Complaint Management</p>
+
+        <a href="{% url 'admin_dashboard' %}" class="active">
+            Dashboard
+        </a>
+
+        <a href="#complaints">
+            Manage Complaints
+        </a>
+
+        <a href="{% url 'admin:index' %}">
+            Django Admin
+        </a>
+
+        <a href="{% url 'home' %}">
+            View Website
+        </a>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p class="muted">Monitor and manage student complaints.</p>
+            </div>
+
+            <a class="button" href="#complaints">
+                Manage Complaints
+            </a>
+        </div>
+
+        <section class="cards">
+            <div class="card">
+                <p>Total Complaints</p>
+                <h2>{{ total }}</h2>
+            </div>
+
+            <div class="card pending">
+                <p>Pending</p>
+                <h2>{{ pending }}</h2>
+            </div>
+
+            <div class="card progress">
+                <p>In Progress</p>
+                <h2>{{ in_progress }}</h2>
+            </div>
+
+            <div class="card resolved">
+                <p>Resolved</p>
+                <h2>{{ resolved }}</h2>
+            </div>
+        </section>
+
+        <section class="panel" id="complaints">
+            <h2>All Complaints</h2>
+
+            {% if complaints %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Student</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for complaint in complaints %}
+                        <tr>
+                            <td>{{ complaint.title }}</td>
+                            <td>{{ complaint.name }}</td>
+                            <td>{{ complaint.get_category_display }}</td>
+                            <td>{{ complaint.description|truncatechars:90 }}</td>
+                            <td>{{ complaint.created_at|date:"d M Y" }}</td>
+                            <td>
+                                <form class="status-form"
+                                      method="post"
+                                      action="{% url 'update_complaint_status' complaint.id %}">
+                                    {% csrf_token %}
+
+                                    <select name="status">
+                                        <option value="Pending"
+                                            {% if complaint.status == 'Pending' %}selected{% endif %}>
+                                            Pending
+                                        </option>
+                                        <option value="In Progress"
+                                            {% if complaint.status == 'In Progress' %}selected{% endif %}>
+                                            In Progress
+                                        </option>
+                                        <option value="Resolved"
+                                            {% if complaint.status == 'Resolved' %}selected{% endif %}>
+                                            Resolved
+                                        </option>
+                                    </select>
+
+                                    <button class="small-button" type="submit">
+                                        Update
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <p class="empty">No complaints have been submitted yet.</p>
+            {% endif %}
+        </section>
+    </main>
+</div>
+</body>
+</html>
